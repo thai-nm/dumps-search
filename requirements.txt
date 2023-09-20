@@ -1,0 +1,2 @@
+googlesearch-python==1.2.3
+weasyprint == 59.0
