@@ -4,6 +4,9 @@
 # Pre-requiste
 - `Python` >= `3.9`
 
+# Supported exams
+- Google Cloud Platform - Associate Cloud Engineer
+- Amazon Web Services - Certified Security Specialty
 # Set up
 Set up virtual environment and install dependencies:
 ```bash
