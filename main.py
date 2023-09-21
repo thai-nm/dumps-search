@@ -19,7 +19,7 @@ EXAM = {
 
 def get_answer_url(exam_id, index):
     query = f"{EXAM[exam_id]['query']} {index}"
-    result_urls = list(search(query))
+    result_urls = list(search(query, sleep_interval=1))
 
     for url in result_urls:
         if f"{EXAM[exam_id]['keyword']}-{index}" in url:
