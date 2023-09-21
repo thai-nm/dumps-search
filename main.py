@@ -36,12 +36,31 @@ def save_question_pages_as_pdf(question_index, pages):
         print(
             f"Question {question_index} - Pages {', '.join(map(str, pages))} saved as '{pdf_filename}'"
         )
+        return pdf_filename
     except Exception as e:
         print(f"Error saving question {question_index} as PDF: {e}")
 
 
+def merge_pdfs(input_pdfs, output_pdf="merge.pdf"):
+    pdf_merger = PyPDF2.PdfMerger()
+
+    try:
+        for pdf in input_pdfs:
+            pdf_merger.append(pdf)
+
+        with open(output_pdf, "wb") as output_file:
+            pdf_merger.write(output_file)
+
+        print(f"Merged PDFs saved as '{output_pdf}'")
+    except Exception as e:
+        print(f"Error merging PDFs: {e}")
+
+
 if __name__ == "__main__":
     options = prepare_parser().parse_args()
+    result_files = []
 
     for question_index in range(options.start, options.end + 1):
-        save_question_pages_as_pdf(question_index, pages=options.pages)
+        # result_file = save_question_pages_as_pdf(question_index, pages=options.pages)
+        result_files.append(f"question-{question_index}.pdf")
+    merge_pdfs(result_files)
