@@ -1,5 +1,5 @@
 # Dumps search for ExamTopics
-*To generate PDF files containing questions and discussion sessions on ExamTopic.*
+*With free tier, ExamTopic only allows us to see limited questions and answers. This tool is to generate PDF files containing any questions and discussion sessions on ExamTopic.*
 
 # Pre-requiste
 - `Python` >= `3.9`
