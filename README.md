@@ -1,38 +1,95 @@
-# Dumps search for ExamTopics
-*With free tier, ExamTopic only allows us to see limited questions and answers. This tool is to generate PDF files containing any questions and discussion sessions on ExamTopic.*
+# dumps-search
 
-# Pre-requiste
-- `Python` >= `3.9`
+A simple Python CLI tool to search for questions/answers of a specific topic on Exam Topics and save them as PDF files.
 
-# Supported exams
-- Google Cloud Platform - Associate Cloud Engineer
-- Amazon Web Services - Certified Security Specialty
-# Set up
-Set up virtual environment and install dependencies:
+## Current Status
+
+**Phase 1: Project Setup and Foundation** ✅ **COMPLETED**
+
+- ✅ Basic project structure created
+- ✅ CLI interface with argparse implemented
+- ✅ Argument validation working
+- ✅ Help and version commands functional
+- ✅ Development environment ready
+
+## Installation
+
+1. Clone the repository:
 ```bash
-python3 -m venv venv
-. venv/bin/activate
-pip install -r requirements.txt
+git clone https://github.com/thai-nm/dumps-search.git
+cd dumps-search
 ```
 
-# Usage
-```
-usage: main.py [-h] [--start START] [--end END] [--pages PAGES [PAGES ...]] [--exam {gcp-ace,aws-scs}]
-
-Generate PDFs for GCP ACE exam questions
-
-optional arguments:
-  -h, --help                    show this help message and exit
-  --start START                 first question index to query
-  --end END                     last question index to query
-  --pages PAGES [PAGES ...]     specify pages to generate
-  --exam {gcp-ace,aws-scs}      exam name
+2. Install dependencies:
+```bash
+pip3 install -r requirements.txt
 ```
 
-Example:
+## Usage
 
-- This will generate PDF files from question #1 to question #31 the exam AWS-SCS:
+```bash
+python3 -m src.dumps_search.cli "keyword" start_number end_number [options]
+```
 
-    ```bash
-    python3 main.py --start 1 --end 31 --exam aws-scs
-    ```
+### Examples
+
+```bash
+# Basic usage
+python3 -m src.dumps_search.cli "AWS Solutions Architect" 1 50
+
+# With custom output file
+python3 -m src.dumps_search.cli "Azure Fundamentals" 10 25 --output azure_questions.pdf
+
+# Dry run to see what would be done
+python3 -m src.dumps_search.cli "CompTIA Security+" 1 100 --dry-run --verbose
+
+# Show help
+python3 -m src.dumps_search.cli --help
+
+# Show version
+python3 -m src.dumps_search.cli --version
+```
+
+### Options
+
+- `keyword`: The keyword to search for the topic on Exam Topics
+- `start`: The start number of question (inclusive)
+- `end`: The end number of question (inclusive)
+- `--output, -o`: Output PDF filename (default: output.pdf)
+- `--verbose`: Enable verbose output
+- `--dry-run`: Show what would be done without actually doing it
+- `--help, -h`: Show help message
+- `--version, -v`: Show version number
+
+## Project Structure
+
+```
+dumps-search/
+├── src/
+│   └── dumps_search/
+│       ├── __init__.py
+│       └── cli.py
+├── tests/
+│   └── __init__.py
+├── requirements.txt
+├── README.md
+├── tool-demonstration.md
+└── .gitignore
+```
+
+## Development Phases
+
+- **Phase 1**: Project Setup and Foundation ✅
+- **Phase 2**: Search Functionality (Next)
+- **Phase 3**: PDF Generation from URLs
+- **Phase 4**: PDF Processing and Merging
+- **Phase 5**: Enhanced CLI and User Experience
+- **Phase 6**: Testing and Quality Assurance
+
+## Contributing
+
+This is a personal project for educational purposes. See `tool-demonstration.md` for detailed implementation plans.
+
+## License
+
+MIT License

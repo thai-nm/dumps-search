@@ -2,12 +2,8 @@
 
 ## Objective
 
-A Python CLI tool to search for questions/answers of a specific topic on Exam Topics and save them as PDF files.
+A simple Python CLI tool to search for questions/answers of a specific topic on Exam Topics and save them as PDF files.
 These PDF files later on will be merged into a single PDF file.
-
-The tool should be:
-- Packaged and uploaded to PyPi by GitHub Actions workflows
-- Easily installed by pip
 
 ## How it works
 
@@ -103,41 +99,11 @@ The tool should be:
 - Automated testing pipeline
 - Verified cross-platform compatibility
 
-### Phase 7: Packaging and Distribution
-**Goal**: Prepare the tool for public distribution via PyPI
-
-**Tasks**:
-- Configure proper Python packaging (setup.py, pyproject.toml)
-- Create comprehensive documentation and README
-- Set up GitHub Actions for automated PyPI publishing
-- Implement semantic versioning and release management
-- Create installation and usage guides
-
-**Deliverables**:
-- Published package on PyPI
-- Automated release pipeline
-- Complete documentation for users and contributors
-
-### Phase 8: Monitoring and Maintenance
-**Goal**: Ensure long-term stability and user satisfaction
-
-**Tasks**:
-- Implement usage analytics and error reporting
-- Monitor for changes in ExamTopics website structure
-- Set up automated dependency updates
-- Create issue templates and contribution guidelines
-- Plan for future feature enhancements
-
-**Deliverables**:
-- Stable, maintained tool with active monitoring
-- Clear processes for handling issues and updates
-- Roadmap for future development
 
 ## Technical Dependencies by Phase
 
 ### Phase 1-2: Core Dependencies
 ```
-click>=8.0.0          # CLI framework
 requests>=2.25.0      # HTTP requests
 beautifulsoup4>=4.9.0 # HTML parsing
 duckduckgo-search>=3.0.0  # Open-source DuckDuckGo search (no API key required)
@@ -158,12 +124,6 @@ black>=21.0.0        # Code formatting
 flake8>=3.8.0        # Linting
 ```
 
-### Phase 7-8: Distribution and Monitoring
-```
-twine>=3.0.0         # PyPI uploading
-setuptools>=50.0.0   # Packaging
-wheel>=0.36.0        # Wheel building
-```
 
 ## Success Criteria
 
@@ -173,8 +133,6 @@ wheel>=0.36.0        # Wheel building
 ### Phase 4: ✅ Merges multiple PDFs into single file
 ### Phase 5: ✅ Handles concurrent downloads efficiently
 ### Phase 6: ✅ Passes all tests with >80% coverage
-### Phase 7: ✅ Successfully installs via `pip install exam-topics-tool`
-### Phase 8: ✅ Tool runs reliably in production with monitoring
 
 ## Risk Mitigation
 
@@ -191,5 +149,4 @@ wheel>=0.36.0        # Wheel building
 
 ### Operational Risks
 - **Dependency conflicts**: Pin versions and test compatibility regularly
-- **PyPI publishing**: Test with TestPyPI first, implement proper versioning
 - **User support**: Create clear documentation and issue templates
