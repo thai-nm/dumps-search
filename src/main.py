@@ -6,9 +6,10 @@ import logging
 import os
 import sys
 
-from config import ConfigManager
-from search import SearchEngine
-from pdf_generator import PDFGenerator
+from .config import ConfigManager
+from .search import SearchEngine
+from .pdf_generator import PDFGenerator
+from .pdf_merger import PDFMerger
 
 
 def setup_logging(log_level: str = "info"):
@@ -41,6 +42,10 @@ def main():
     parser.add_argument('--config', default='settings.json', help='Configuration file path')
     parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], 
                        default='info', help='Logging level')
+    parser.add_argument('--merge', action='store_true', 
+                       help='Merge all generated PDFs into a single file')
+    parser.add_argument('--keep-individual', action='store_true',
+                       help='Keep individual PDF files after merging (default: delete them)')
     
     args = parser.parse_args()
     
@@ -142,6 +147,69 @@ def main():
             print(f"\n✗ NO URLs FOUND:")
             for question_num in failed_questions:
                 print(f"  Question {question_num}: No valid URL found")
+        
+        # Merge PDFs if requested and we have generated PDFs
+        if args.merge and generated_pdfs:
+            logger.info("Starting PDF merge process...")
+            pdf_merger = PDFMerger()
+            
+            try:
+                # Extract just the file paths from generated_pdfs
+                pdf_paths = [pdf_path for _, pdf_path in generated_pdfs]
+                
+                # Create merged PDF filename
+                merged_filename = f"{args.exam}_topic{args.topic}_questions{args.begin}-{args.end}_merged.pdf"
+                merged_path = os.path.join(args.output, merged_filename)
+                
+                logger.info(f"Merging {len(pdf_paths)} PDFs into: {merged_filename}")
+                
+                # Perform the merge
+                merge_success = pdf_merger.merge_pdfs(pdf_paths, merged_path)
+                
+                if merge_success:
+                    print(f"\n{'='*60}")
+                    print(f"PDF MERGE SUMMARY")
+                    print(f"{'='*60}")
+                    print(f"✓ MERGE SUCCESS: Created {merged_filename}")
+                    print(f"  Location: {merged_path}")
+                    print(f"  Merged {len(pdf_paths)} individual PDFs")
+                    
+                    # Clean up individual PDFs if not keeping them
+                    if not args.keep_individual:
+                        logger.info("Cleaning up individual PDF files...")
+                        cleanup_count = 0
+                        cleanup_failures = 0
+                        
+                        for _, pdf_path in generated_pdfs:
+                            try:
+                                if os.path.exists(pdf_path):
+                                    os.remove(pdf_path)
+                                    cleanup_count += 1
+                                    logger.debug(f"Removed individual PDF: {pdf_path}")
+                            except Exception as e:
+                                cleanup_failures += 1
+                                logger.warning(f"Failed to remove {pdf_path}: {str(e)}")
+                        
+                        print(f"  Cleaned up {cleanup_count} individual PDF files")
+                        if cleanup_failures > 0:
+                            print(f"  Failed to clean up {cleanup_failures} files")
+                    else:
+                        print(f"  Individual PDF files preserved")
+                        
+                else:
+                    print(f"\n✗ MERGE FAILED: Could not create merged PDF")
+                    logger.error("PDF merge operation failed")
+                    
+            except Exception as e:
+                logger.error(f"PDF merge error: {str(e)}")
+                print(f"\n✗ MERGE ERROR: {str(e)}")
+            finally:
+                # Clean up any temporary files created by the merger
+                pdf_merger.cleanup_temp_files()
+                
+        elif args.merge and not generated_pdfs:
+            logger.warning("PDF merge requested but no PDFs were generated")
+            print(f"\n⚠ MERGE SKIPPED: No PDFs available to merge")
         
     except Exception as e:
         logger.error(f"Error: {str(e)}")
