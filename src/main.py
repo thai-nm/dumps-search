@@ -49,12 +49,6 @@ def main():
         "--config", default="settings.json", help="Configuration file path"
     )
     parser.add_argument(
-        "--log-level",
-        choices=["debug", "info", "warning", "error"],
-        default="info",
-        help="Logging level",
-    )
-    parser.add_argument(
         "--merge",
         action="store_true",
         help="Merge all generated PDFs into a single file",
@@ -179,7 +173,9 @@ def main():
         if pdf_failures:
             logger.info(f"\n✗ PDF GENERATION FAILURES:")
             for question_num, url in pdf_failures:
-                logger.debug(f"  Question {question_num}: Failed to generate PDF from {url}")
+                logger.debug(
+                    f"  Question {question_num}: Failed to generate PDF from {url}"
+                )
 
         if failed_questions:
             logger.info(f"\n✗ NO URLs FOUND:")
@@ -228,9 +224,13 @@ def main():
                                 cleanup_failures += 1
                                 logger.warning(f"Failed to remove {pdf_path}: {str(e)}")
 
-                        logger.debug(f"  Cleaned up {cleanup_count} individual PDF files")
+                        logger.debug(
+                            f"  Cleaned up {cleanup_count} individual PDF files"
+                        )
                         if cleanup_failures > 0:
-                            logger.warning(f"  Failed to clean up {cleanup_failures} files")
+                            logger.warning(
+                                f"  Failed to clean up {cleanup_failures} files"
+                            )
                     else:
                         logger.debug(f"  Individual PDF files preserved")
 
