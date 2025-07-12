@@ -1,125 +1,77 @@
 # ExamTopics PDF Scraper
 
-A Python CLI tool that searches for exam questions on ExamTopics, downloads them as individual PDF files, and merges them into a single comprehensive PDF document.
+*With the free tier, ExamTopics only allows limited access to questions and answers. This tool searches for exam questions on ExamTopics, downloads them as individual PDF files, and optionally merges them into a single comprehensive study document.*
 
-## Project Status
+## Prerequisites
 
-This project is currently in **Phase 2: Core Functionality** of development.
+- `Python` >= `3.7`
+- Internet connection for searching and downloading
 
-### Completed Features
+## Supported Exams
 
-✅ **Phase 1.1: Project Infrastructure**
-- Project directory structure created
-- Virtual environment setup
-- Git repository initialized
-- Basic `requirements.txt` with core dependencies
-- `.gitignore` file with Python-specific exclusions
+- **SAA-C03**: AWS Certified Solutions Architect Associate
+- **AZ-104-1**: Microsoft Azure Administrator (Topic 1)
 
-✅ **Phase 1.2: Configuration System**
-- `config.py` module implementation with `ConfigManager` class
-- `settings.json` template with sample exam configurations
-- Configuration validation logic
-- Comprehensive test suite for configuration management
+## Setup
 
-✅ **Phase 2.1: Search Engine Implementation**
-- `search.py` module with DuckDuckGo integration
-- URL validation and filtering logic
-- Search result processing functions
-- Error handling for network operations
+This tool uses [Weasyprint](https://weasyprint.org/). So depends on your OS, you might need to install its dependencies: 
+- [Weasyprint Official Documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
 
-✅ **Phase 2.2: Main Application Integration**
-- `main.py` with complete CLI interface
-- Support for question ranges (--begin and --end parameters)
-- Argument parsing and validation
-- Main workflow orchestration for processing multiple questions
-- Progress tracking and summary reporting
+Set up virtual environment and install dependencies:
 
-## Project Structure
-
-```
-dumps-search/
-├── src/
-│   ├── __init__.py
-│   └── config.py          # Configuration management
-├── tests/
-│   ├── __init__.py
-│   └── test_config.py     # Configuration tests
-├── docs/
-│   ├── implementation-phases.md
-│   ├── implementation-plan.md
-│   └── tool-demonstration.md
-├── output/                # Generated PDFs will be stored here
-├── venv/                  # Virtual environment
-├── .gitignore
-├── requirements.txt       # Project dependencies
-├── settings.json          # Configuration file
-└── README.md
-```
-
-## Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/thai-nm/dumps-search.git
-cd dumps-search
-```
-
-2. Create and activate virtual environment:
 ```bash
 python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-```
-
-3. Install dependencies:
-```bash
+. venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ## Usage
 
-The tool now supports processing ranges of questions using the `--begin` and `--end` parameters:
-
 ```bash
-# Search for questions 1-5 in SAA-C03 exam, topic 1
-python src/main.py --exam saa-c03 --begin 1 --end 5 --topic 1
-
-# Search for questions 10-15 with debug logging
-python src/main.py --exam saa-c03 --begin 10 --end 15 --topic 1 --log-level debug
-
-# Use custom configuration file
-python src/main.py --exam saa-c03 --begin 1 --end 3 --config my-settings.json
+python src/main.py --exam EXAM_CODE --begin START --end END [OPTIONS]
 ```
 
-### Command Line Options
+### Required Arguments
 
-- `--exam`: Exam code (required) - must match an exam in the configuration
-- `--begin`: Beginning question number (required)
-- `--end`: Ending question number (required)
-- `--topic`: Topic number (optional, default: 1)
-- `--config`: Configuration file path (optional, default: settings.json)
-- `--log-level`: Logging level (optional, choices: debug, info, warning, error)
+- `--exam`: Exam code
+- `--begin`: Starting question number
+- `--end`: Ending question number
 
-### Example Output
+### Optional Arguments
 
+- `--output`: Output directory (default: `output`)
+- `--config`: Configuration file path (default: `settings.json`)
+- `--no-merge`: Skip PDF merging, keep only individual files
+- `--keep-individual`: Keep individual PDFs after merging
+
+### Examples
+
+- Download questions 1-10 for AWS SAA-C03:
+```bash
+python src/main.py --exam saa-c03 --begin 1 --end 10
 ```
-PROCESSING SUMMARY
-Total questions processed: 3
-Successful: 3
-Failed: 0
 
-✓ SUCCESSFUL QUESTIONS:
-  Question 1: https://www.examtopics.com/discussions/amazon/view/84973-exam-aws-certified-solutions-architect-associate-saa-c03/
-  Question 2: https://www.examtopics.com/discussions/amazon/view/84848-exam-aws-certified-solutions-architect-associate-saa-c03/
-  Question 3: https://www.examtopics.com/discussions/amazon/view/84838-exam-aws-certified-solutions-architect-associate-saa-c03/
+- Download to custom directory without merging:
+```bash
+python src/main.py --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
+```
+
+## Output
+
+Example output structure:
+```bash
+output/
+├── saa-c03_question1.pdf
+├── saa-c03_question2.pdf
+├── saa-c03_question3.pdf
+└── saa-c03_questions1-3_merged.pdf
 ```
 
 ## Configuration
 
-The project uses `settings.json` for configuration. Currently configured exams:
+The tool uses `settings.json` to configure exam parameters and search behavior. Here's how to understand and modify the settings:
 
-- **SAA-C03**: AWS Certified Solutions Architect Associate
-
-### Configuration Format
+### Settings Structure
 
 ```json
 {
@@ -128,49 +80,53 @@ The project uses `settings.json` for configuration. Currently configured exams:
   "exams": [
     {
       "exam": "saa-c03",
-      "title": "Associate SAA-C03 topic #TOPIC question #QUESTION",
-      "keyword": "Associate SAA-C03 topic #TOPIC question #QUESTION",
+      "title": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "keyword": "Associate SAA-C03 topic 1 question #QUESTION discussion",
       "url_substring": "exam-aws-certified-solutions-architect-associate-saa-c03"
     }
   ]
 }
 ```
 
-## Testing
+### Settings Explanation
 
-Run the test suite:
+**Global Settings:**
+- `site`: The base ExamTopics URL (usually doesn't need to change)
+- `log_level`: Logging verbosity (`debug`, `info`, `warning`, `error`)
 
-```bash
-# Activate virtual environment first
-source venv/bin/activate
+**Exam Configuration:**
+- `exam`: Unique identifier used with `--exam` parameter
+- `title`: Page title used to find question URLs
+- `keyword`: Search keyword used to find question URLs
+- `url_substring`: Unique part of ExamTopics URLs to validate correct results
 
-# Run all tests
-python -m pytest tests/ -v
+**Placeholders:**
+- `#QUESTION`: Automatically replaced with the actual question number during search
 
-# Run specific test file
-python -m pytest tests/test_config.py -v
+### Adding New Exams
+
+You can open an issue to ask for support on a new exam.
+
+OR you can add it yourself by:
+
+- Find the exam on ExamTopics and note the URL pattern
+- Add a new exam object to the `exams` array:
+
+```json
+{
+  "exam": "your-exam-code",
+  "title": "Exam Title topic 1 question #QUESTION discussion",
+  "keyword": "Exam Title topic 1 question #QUESTION discussion",
+  "url_substring": "unique-part-of-exam-url"
+}
 ```
 
-## Development Dependencies
-
-- **duckduckgo-search**: Web search functionality
-- **weasyprint**: HTML to PDF conversion
-- **pypdf**: PDF manipulation and merging
-- **requests**: HTTP requests for web content
-- **pytest**: Testing framework
-- **black**: Code formatting
-- **flake8**: Code linting
-- **tqdm**: Progress bars
-
-## Next Steps
-
-The following phases are planned for development:
-
-- **Phase 2**: Core Functionality (Search Engine & PDF Generation)
-- **Phase 3**: Integration and Processing (PDF Merger & Logging)
-- **Phase 4**: Documentation and Deployment
-- **Phase 5**: Testing and Quality Assurance
-
-## License
-
-This project is for educational purposes only.
+- Example for adding AWS DVA-C02
+```json
+{
+  "exam": "dva-c02",
+  "title": "Developer DVA-C02 topic 1 question #QUESTION discussion",
+  "keyword": "Developer DVA-C02 topic 1 question #QUESTION discussion",
+  "url_substring": "exam-aws-certified-developer-associate-dva-c02"
+}
+```
