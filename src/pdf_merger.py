@@ -1,16 +1,16 @@
-import logging
 import os
 import tempfile
 from typing import List, Optional
 from pathlib import Path
 
 from pypdf import PdfReader, PdfWriter
+from .logger import get_app_logger
 
 
 class PDFMerger:
 
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_app_logger()
         self.temp_files: List[str] = []
 
     def merge_pdfs(self, pdf_list: List[str], output_path: str) -> bool:

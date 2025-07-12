@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 import argparse
-import logging
 import os
 import sys
 
@@ -9,23 +8,7 @@ from .config import ConfigManager
 from .search import SearchEngine
 from .pdf_generator import PDFGenerator
 from .pdf_merger import PDFMerger
-
-
-def setup_logging(log_level: str = "info"):
-    level_map = {
-        "debug": logging.DEBUG,
-        "info": logging.INFO,
-        "warning": logging.WARNING,
-        "error": logging.ERROR,
-    }
-
-    level = level_map.get(log_level.lower(), logging.INFO)
-
-    logging.basicConfig(
-        level=level,
-        format="%(asctime)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler(sys.stdout)],
-    )
+from .logger import setup_logging, get_app_logger
 
 
 def main():
@@ -66,7 +49,7 @@ def main():
         # Setup logging using config from settings.json (override CLI argument)
         config_log_level = config_manager.get_log_level()
         setup_logging(config_log_level)
-        logger = logging.getLogger(__name__)
+        logger = get_app_logger()
 
         # Initialize components
         logger.info("Starting ExamTopics PDF Scraper...")

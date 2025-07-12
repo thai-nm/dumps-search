@@ -1,9 +1,9 @@
-import logging
 import time
 from typing import List, Optional
 from urllib.parse import urlparse
 
 from ddgs import DDGS
+from .logger import get_app_logger
 
 
 class SearchEngine:
@@ -14,7 +14,7 @@ class SearchEngine:
         self.max_results = max_results
         self.retry_attempts = retry_attempts
         self.retry_delay = retry_delay
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_app_logger()
 
     def search_question(
         self, keyword: str, title: str, url_substring: str

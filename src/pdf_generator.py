@@ -13,12 +13,13 @@ wp_logger.setLevel(40)
 
 from weasyprint import HTML
 from pypdf import PdfReader, PdfWriter
+from .logger import get_app_logger
 
 
 class PDFGenerator:
 
     def __init__(self):
-        self.logger = logging.getLogger(__name__)
+        self.logger = get_app_logger()
 
     def generate_pdf(self, url: str, output_path: str) -> bool:
         try:
