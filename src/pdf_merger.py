@@ -1,5 +1,3 @@
-"""PDF merger module for ExamTopics PDF Scraper."""
-
 import logging
 import os
 import tempfile
@@ -10,23 +8,12 @@ from pypdf import PdfReader, PdfWriter
 
 
 class PDFMerger:
-    """Handles merging multiple PDF files into a single document."""
 
     def __init__(self):
-        """Initialize the PDF merger."""
         self.logger = logging.getLogger(__name__)
         self.temp_files: List[str] = []
 
     def merge_pdfs(self, pdf_list: List[str], output_path: str) -> bool:
-        """Merge multiple PDF files into a single PDF document.
-
-        Args:
-            pdf_list: List of paths to PDF files to merge
-            output_path: Path where the merged PDF should be saved
-
-        Returns:
-            True if merging was successful, False otherwise
-        """
         if not pdf_list:
             self.logger.error("No PDF files provided for merging")
             return False
@@ -34,7 +21,6 @@ class PDFMerger:
         try:
             self.logger.debug(f"Starting PDF merge operation with {len(pdf_list)} files")
             
-            # Validate all input PDF files
             valid_pdfs = self._validate_pdf_files(pdf_list)
             if not valid_pdfs:
                 self.logger.error("No valid PDF files found for merging")
@@ -45,12 +31,10 @@ class PDFMerger:
                     f"Only {len(valid_pdfs)} out of {len(pdf_list)} PDF files are valid"
                 )
 
-            # Create output directory if it doesn't exist
             output_dir = os.path.dirname(output_path)
             if output_dir:
                 os.makedirs(output_dir, exist_ok=True)
 
-            # Create PDF writer object
             writer = PdfWriter()
             total_pages = 0
 
@@ -72,7 +56,6 @@ class PDFMerger:
                     self.logger.error(f"Failed to process PDF {pdf_path}: {str(e)}")
                     continue
 
-            # Write the merged PDF
             if total_pages > 0:
                 with open(output_path, 'wb') as output_file:
                     writer.write(output_file)
@@ -102,14 +85,6 @@ class PDFMerger:
             return False
 
     def _validate_pdf_files(self, pdf_list: List[str]) -> List[str]:
-        """Validate PDF files and return list of valid files.
-
-        Args:
-            pdf_list: List of PDF file paths to validate
-
-        Returns:
-            List of valid PDF file paths
-        """
         valid_pdfs = []
         
         for pdf_path in pdf_list:
@@ -121,16 +96,7 @@ class PDFMerger:
         return valid_pdfs
 
     def _is_valid_pdf(self, pdf_path: str) -> bool:
-        """Check if a PDF file is valid and readable.
-
-        Args:
-            pdf_path: Path to the PDF file
-
-        Returns:
-            True if PDF is valid, False otherwise
-        """
         try:
-            # Check if file exists and has content
             if not os.path.exists(pdf_path):
                 self.logger.debug(f"PDF file does not exist: {pdf_path}")
                 return False
@@ -139,7 +105,6 @@ class PDFMerger:
                 self.logger.debug(f"PDF file is empty: {pdf_path}")
                 return False
 
-            # Try to read the PDF
             reader = PdfReader(pdf_path)
             page_count = len(reader.pages)
             
@@ -158,22 +123,11 @@ class PDFMerger:
             return False
 
     def add_temp_file(self, file_path: str) -> None:
-        """Add a file to the temporary files list for later cleanup.
-
-        Args:
-            file_path: Path to the temporary file
-        """
         if file_path and file_path not in self.temp_files:
             self.temp_files.append(file_path)
             self.logger.debug(f"Added temporary file for cleanup: {file_path}")
 
     def cleanup_temp_files(self, file_list: Optional[List[str]] = None) -> None:
-        """Remove temporary files from the filesystem.
-
-        Args:
-            file_list: Optional list of specific files to clean up.
-                      If None, cleans up all tracked temporary files.
-        """
         files_to_clean = file_list if file_list is not None else self.temp_files.copy()
         
         if not files_to_clean:
@@ -213,15 +167,6 @@ class PDFMerger:
             )
 
     def create_temp_file(self, suffix: str = '.pdf', prefix: str = 'examtopics_') -> str:
-        """Create a temporary file and track it for cleanup.
-
-        Args:
-            suffix: File suffix (default: '.pdf')
-            prefix: File prefix (default: 'examtopics_')
-
-        Returns:
-            Path to the created temporary file
-        """
         try:
             # Create temporary file
             temp_fd, temp_path = tempfile.mkstemp(suffix=suffix, prefix=prefix)
@@ -238,15 +183,10 @@ class PDFMerger:
             raise
 
     def get_temp_files_count(self) -> int:
-        """Get the number of tracked temporary files.
-
-        Returns:
-            Number of temporary files being tracked
-        """
         return len(self.temp_files)
 
     def __del__(self):
-        """Cleanup temporary files when the object is destroyed."""
+        # Cleanup temporary files when the object is destroyed
         if hasattr(self, 'temp_files') and self.temp_files:
             try:
                 self.cleanup_temp_files()

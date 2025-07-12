@@ -1,5 +1,3 @@
-"""PDF generation module for ExamTopics PDF Scraper."""
-
 import logging
 import os
 from urllib.parse import urlparse
@@ -18,31 +16,18 @@ from pypdf import PdfReader, PdfWriter
 
 
 class PDFGenerator:
-    """Handles PDF generation from web pages using weasyprint."""
 
     def __init__(self):
-        """Initialize the PDF generator."""
         self.logger = logging.getLogger(__name__)
 
     def generate_pdf(self, url: str, output_path: str) -> bool:
-        """Convert a web page URL to PDF.
-
-        Args:
-            url: URL of the web page to convert
-            output_path: Path where the PDF file should be saved
-
-        Returns:
-            True if PDF generation was successful, False otherwise
-        """
         try:
             self.logger.debug(f"Generating PDF from URL: {url}")
 
-            # Validate URL
             if not self._validate_url(url):
                 self.logger.error(f"Invalid URL: {url}")
                 return False
 
-            # Create output directory if it doesn't exist
             output_dir = os.path.dirname(output_path)
             if output_dir:
                 os.makedirs(output_dir, exist_ok=True)
@@ -89,20 +74,9 @@ class PDFGenerator:
             return False
 
     def _filter_pdf_pages(self, input_path: str, output_path: str) -> bool:
-        """Filter PDF pages based on the specified logic.
-        
-        If PDF has less than 3 pages, keep as is.
-        If PDF has 3 or more pages, only keep pages 3 to 5.
-
-        Args:
-            input_path: Path to the input PDF file
-            output_path: Path where the filtered PDF should be saved
-
-        Returns:
-            True if filtering was successful, False otherwise
-        """
+        # If PDF has less than 3 pages, keep as is.
+        # If PDF has 3 or more pages, only keep pages 3 to 5.
         try:
-            # Read the input PDF
             reader = PdfReader(input_path)
             total_pages = len(reader.pages)
             
@@ -126,7 +100,6 @@ class PDFGenerator:
                 if page_num < total_pages:
                     writer.add_page(reader.pages[page_num])
             
-            # Write the filtered PDF
             with open(output_path, 'wb') as output_file:
                 writer.write(output_file)
             
@@ -139,14 +112,6 @@ class PDFGenerator:
             return False
 
     def _validate_url(self, url: str) -> bool:
-        """Validate if the URL is properly formatted.
-
-        Args:
-            url: URL to validate
-
-        Returns:
-            True if URL is valid, False otherwise
-        """
         try:
             result = urlparse(url)
             return all([result.scheme, result.netloc])

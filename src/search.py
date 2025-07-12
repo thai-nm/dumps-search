@@ -1,5 +1,3 @@
-"""Search engine implementation for ExamTopics PDF Scraper."""
-
 import logging
 import time
 from typing import List, Optional
@@ -9,18 +7,10 @@ from ddgs import DDGS
 
 
 class SearchEngine:
-    """Handles DuckDuckGo search operations for ExamTopics URLs."""
 
     def __init__(
         self, max_results: int = 10, retry_attempts: int = 3, retry_delay: float = 1.0
     ):
-        """Initialize the search engine.
-
-        Args:
-            max_results: Maximum number of search results to retrieve
-            retry_attempts: Number of retry attempts for failed searches
-            retry_delay: Delay between retry attempts in seconds
-        """
         self.max_results = max_results
         self.retry_attempts = retry_attempts
         self.retry_delay = retry_delay
@@ -29,21 +19,8 @@ class SearchEngine:
     def search_question(
         self, keyword: str, title: str, url_substring: str
     ) -> Optional[str]:
-        """Search for a specific question and return the first valid ExamTopics URL.
-
-        Uses DuckDuckGo advanced search syntax:
-        site:examtopics.com title:"<title>" "<keyword>"
-
-        Args:
-            keyword: Search keyword/phrase
-            title: Page title to search for (from HTML title tag)
-            url_substring: Required substring in the URL to validate results
-
-        Returns:
-            First valid ExamTopics URL or None if no valid URL found
-        """
         # Construct advanced search query using DuckDuckGo syntax
-        search_query = f'site:examtopics.com title:{title} "{keyword}"'
+        search_query = f'site:examtopics.com intitle:{title} "{keyword}"'
 
         self.logger.debug(f"Searching with query: {search_query}")
 
@@ -68,17 +45,6 @@ class SearchEngine:
             return None
 
     def _perform_search(self, query: str) -> List[dict]:
-        """Perform the actual search with retry logic.
-
-        Args:
-            query: Search query string
-
-        Returns:
-            List of search result dictionaries
-
-        Raises:
-            Exception: If all retry attempts fail
-        """
         last_exception = None
 
         for attempt in range(self.retry_attempts):
@@ -113,15 +79,6 @@ class SearchEngine:
     def get_first_valid_url(
         self, results: List[dict], url_substring: str
     ) -> Optional[str]:
-        """Extract the first valid URL from search results.
-
-        Args:
-            results: List of search result dictionaries
-            url_substring: Required substring to validate URLs
-
-        Returns:
-            First valid URL or None if no valid URL found
-        """
         for result in results:
             url = result.get("href")
             if url and self.validate_url(url, url_substring):
@@ -130,15 +87,6 @@ class SearchEngine:
         return None
 
     def validate_url(self, url: str, url_substring: str) -> bool:
-        """Check if URL belongs to the target exam.
-
-        Args:
-            url: URL to validate
-            url_substring: Required substring in the URL
-
-        Returns:
-            True if URL is valid, False otherwise
-        """
         if not url or not url_substring:
             return False
 
@@ -163,14 +111,6 @@ class SearchEngine:
             return False
 
     def get_search_results(self, query: str) -> List[dict]:
-        """Get all search results for a query (for debugging/testing).
-
-        Args:
-            query: Search query string
-
-        Returns:
-            List of all search result dictionaries
-        """
         try:
             return self._perform_search(query)
         except Exception as e:

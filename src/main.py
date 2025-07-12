@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-"""Simple main CLI application for ExamTopics PDF Scraper."""
 
 import argparse
 import logging
@@ -13,7 +12,6 @@ from .pdf_merger import PDFMerger
 
 
 def setup_logging(log_level: str = "info"):
-    """Setup logging configuration."""
     level_map = {
         "debug": logging.DEBUG,
         "info": logging.INFO,
@@ -31,7 +29,6 @@ def setup_logging(log_level: str = "info"):
 
 
 def main():
-    """Main CLI entry point."""
     parser = argparse.ArgumentParser(description="ExamTopics PDF Scraper")
 
     parser.add_argument("--exam", required=True, help="Exam code (e.g., saa-c03)")
