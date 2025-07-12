@@ -1,6 +1,6 @@
 {
   "site": "https://www.examtopics.com",
-  "log_level": "info",
+  "log_level": "debug",
   "exams": [
     {
       "exam": "saa-c03",

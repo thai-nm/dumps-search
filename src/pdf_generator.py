@@ -35,7 +35,7 @@ class PDFGenerator:
             True if PDF generation was successful, False otherwise
         """
         try:
-            self.logger.info(f"Generating PDF from URL: {url}")
+            self.logger.debug(f"Generating PDF from URL: {url}")
 
             # Validate URL
             if not self._validate_url(url):
@@ -61,7 +61,7 @@ class PDFGenerator:
 
                 # Verify the final PDF was created and has content
                 if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
-                    self.logger.info(
+                    self.logger.debug(
                         f"PDF generated successfully: {output_path} ({os.path.getsize(output_path)} bytes)"
                     )
                     return True
@@ -106,11 +106,11 @@ class PDFGenerator:
             reader = PdfReader(input_path)
             total_pages = len(reader.pages)
             
-            self.logger.info(f"PDF has {total_pages} pages")
+            self.logger.debug(f"PDF has {total_pages} pages")
             
             # If less than 3 pages, copy the file as is
             if total_pages < 3:
-                self.logger.info("PDF has less than 3 pages, keeping all pages")
+                self.logger.debug("PDF has less than 3 pages, keeping all pages")
                 import shutil
                 shutil.copy2(input_path, output_path)
                 return True
@@ -120,7 +120,7 @@ class PDFGenerator:
             start_page = 2  # Page 3 (0-indexed)
             end_page = min(4, total_pages - 1)  # Page 5 or last page if less than 5 pages
             
-            self.logger.info(f"Filtering pages: keeping pages {start_page + 1} to {end_page + 1}")
+            self.logger.debug(f"Filtering pages: keeping pages {start_page + 1} to {end_page + 1}")
             
             for page_num in range(start_page, end_page + 1):
                 if page_num < total_pages:
@@ -131,7 +131,7 @@ class PDFGenerator:
                 writer.write(output_file)
             
             filtered_pages = len(writer.pages)
-            self.logger.info(f"Filtered PDF created with {filtered_pages} pages")
+            self.logger.debug(f"Filtered PDF created with {filtered_pages} pages")
             return True
             
         except Exception as e:

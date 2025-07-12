@@ -75,8 +75,8 @@ This document outlines the detailed implementation phases for the ExamTopics PDF
 ### 3.2 Logging System
 
 #### Deliverables:
-- [ ] Use logging configuration from settings.json file
-- [ ] Simplify log output: only show essential output INFO logs, keep other logs as DEBUG
+- [x] Use logging configuration from settings.json file
+- [x] Simplify log output: only show essential output INFO logs, keep other logs as DEBUG
 
 #### Tasks:
 1. Implement centralized logging setting

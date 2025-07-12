@@ -32,7 +32,7 @@ class PDFMerger:
             return False
 
         try:
-            self.logger.info(f"Starting PDF merge operation with {len(pdf_list)} files")
+            self.logger.debug(f"Starting PDF merge operation with {len(pdf_list)} files")
             
             # Validate all input PDF files
             valid_pdfs = self._validate_pdf_files(pdf_list)
@@ -79,7 +79,7 @@ class PDFMerger:
                 
                 # Verify the output file was created successfully
                 if os.path.exists(output_path) and os.path.getsize(output_path) > 0:
-                    self.logger.info(
+                    self.logger.debug(
                         f"PDF merge completed successfully: {output_path} "
                         f"({total_pages} pages, {os.path.getsize(output_path)} bytes)"
                     )
@@ -208,7 +208,7 @@ class PDFMerger:
                     self.temp_files.remove(file_path)
 
         if cleaned_count > 0 or failed_count > 0:
-            self.logger.info(
+            self.logger.debug(
                 f"Cleanup completed: {cleaned_count} files removed, {failed_count} failures"
             )
 
