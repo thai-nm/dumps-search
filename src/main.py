@@ -32,7 +32,8 @@ def main():
     parser = argparse.ArgumentParser(description="ExamTopics PDF Scraper")
     
     parser.add_argument('--exam', required=True, help='Exam code (e.g., saa-c03)')
-    parser.add_argument('--question', type=int, required=True, help='Question number to search')
+    parser.add_argument('--begin', type=int, required=True, help='Beginning question number')
+    parser.add_argument('--end', type=int, required=True, help='Ending question number')
     parser.add_argument('--topic', type=int, default=1, help='Topic number (default: 1)')
     parser.add_argument('--config', default='settings.json', help='Configuration file path')
     parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], 
@@ -63,23 +64,57 @@ def main():
         
         logger.info(f"Found exam config for: {args.exam}")
         
-        # Replace placeholders in title and keyword
-        title = exam_config['title'].replace('#TOPIC', str(args.topic)).replace('#QUESTION', str(args.question))
-        keyword = exam_config['keyword'].replace('#TOPIC', str(args.topic)).replace('#QUESTION', str(args.question))
+        # Validate question range
+        if args.begin > args.end:
+            logger.error(f"Begin question number ({args.begin}) cannot be greater than end question number ({args.end})")
+            return
+        
         url_substring = exam_config['url_substring']
         
-        logger.info(f"Searching for question {args.question} in topic {args.topic}")
-        logger.info(f"Title: {title}")
-        logger.info(f"Keyword: {keyword}")
+        logger.info(f"Processing questions {args.begin} to {args.end} in topic {args.topic}")
         
-        # Perform search
-        result_url = search_engine.search_question(keyword, title, url_substring)
+        # Track results
+        successful_urls = []
+        failed_questions = []
         
-        if result_url:
-            print(f"\n✓ SUCCESS: Found URL for question {args.question}")
-            print(f"URL: {result_url}")
-        else:
-            print(f"\n✗ FAILED: No valid URL found for question {args.question}")
+        # Process each question in the range
+        for question_num in range(args.begin, args.end + 1):
+            logger.info(f"Processing question {question_num}...")
+            
+            # Replace placeholders in title and keyword for current question
+            title = exam_config['title'].replace('#TOPIC', str(args.topic)).replace('#QUESTION', str(question_num))
+            keyword = exam_config['keyword'].replace('#TOPIC', str(args.topic)).replace('#QUESTION', str(question_num))
+            
+            logger.debug(f"Question {question_num} - Title: {title}")
+            logger.debug(f"Question {question_num} - Keyword: {keyword}")
+            
+            # Perform search for current question
+            result_url = search_engine.search_question(keyword, title, url_substring)
+            
+            if result_url:
+                successful_urls.append((question_num, result_url))
+                logger.info(f"✓ SUCCESS: Found URL for question {question_num}")
+            else:
+                failed_questions.append(question_num)
+                logger.warning(f"✗ FAILED: No valid URL found for question {question_num}")
+        
+        # Print summary
+        print(f"\n{'='*60}")
+        print(f"PROCESSING SUMMARY")
+        print(f"{'='*60}")
+        print(f"Total questions processed: {args.end - args.begin + 1}")
+        print(f"Successful: {len(successful_urls)}")
+        print(f"Failed: {len(failed_questions)}")
+        
+        if successful_urls:
+            print(f"\n✓ SUCCESSFUL QUESTIONS:")
+            for question_num, url in successful_urls:
+                print(f"  Question {question_num}: {url}")
+        
+        if failed_questions:
+            print(f"\n✗ FAILED QUESTIONS:")
+            for question_num in failed_questions:
+                print(f"  Question {question_num}: No valid URL found")
         
     except Exception as e:
         logger.error(f"Error: {str(e)}")

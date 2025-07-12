@@ -4,7 +4,7 @@ A Python CLI tool that searches for exam questions on ExamTopics, downloads them
 
 ## Project Status
 
-This project is currently in **Phase 1: Foundation Setup** of development.
+This project is currently in **Phase 2: Core Functionality** of development.
 
 ### Completed Features
 
@@ -20,6 +20,19 @@ This project is currently in **Phase 1: Foundation Setup** of development.
 - `settings.json` template with sample exam configurations
 - Configuration validation logic
 - Comprehensive test suite for configuration management
+
+✅ **Phase 2.1: Search Engine Implementation**
+- `search.py` module with DuckDuckGo integration
+- URL validation and filtering logic
+- Search result processing functions
+- Error handling for network operations
+
+✅ **Phase 2.2: Main Application Integration**
+- `main.py` with complete CLI interface
+- Support for question ranges (--begin and --end parameters)
+- Argument parsing and validation
+- Main workflow orchestration for processing multiple questions
+- Progress tracking and summary reporting
 
 ## Project Structure
 
@@ -60,6 +73,44 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 3. Install dependencies:
 ```bash
 pip install -r requirements.txt
+```
+
+## Usage
+
+The tool now supports processing ranges of questions using the `--begin` and `--end` parameters:
+
+```bash
+# Search for questions 1-5 in SAA-C03 exam, topic 1
+python src/main.py --exam saa-c03 --begin 1 --end 5 --topic 1
+
+# Search for questions 10-15 with debug logging
+python src/main.py --exam saa-c03 --begin 10 --end 15 --topic 1 --log-level debug
+
+# Use custom configuration file
+python src/main.py --exam saa-c03 --begin 1 --end 3 --config my-settings.json
+```
+
+### Command Line Options
+
+- `--exam`: Exam code (required) - must match an exam in the configuration
+- `--begin`: Beginning question number (required)
+- `--end`: Ending question number (required)
+- `--topic`: Topic number (optional, default: 1)
+- `--config`: Configuration file path (optional, default: settings.json)
+- `--log-level`: Logging level (optional, choices: debug, info, warning, error)
+
+### Example Output
+
+```
+PROCESSING SUMMARY
+Total questions processed: 3
+Successful: 3
+Failed: 0
+
+✓ SUCCESSFUL QUESTIONS:
+  Question 1: https://www.examtopics.com/discussions/amazon/view/84973-exam-aws-certified-solutions-architect-associate-saa-c03/
+  Question 2: https://www.examtopics.com/discussions/amazon/view/84848-exam-aws-certified-solutions-architect-associate-saa-c03/
+  Question 3: https://www.examtopics.com/discussions/amazon/view/84838-exam-aws-certified-solutions-architect-associate-saa-c03/
 ```
 
 ## Configuration
