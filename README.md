@@ -13,6 +13,7 @@ Set up virtual environment and install dependencies:
 python3 -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
+playwright install chromium
 ```
 
 # Usage
