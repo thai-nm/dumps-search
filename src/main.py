@@ -3,10 +3,12 @@
 
 import argparse
 import logging
+import os
 import sys
 
 from config import ConfigManager
 from search import SearchEngine
+from pdf_generator import PDFGenerator
 
 
 def setup_logging(log_level: str = "info"):
@@ -35,6 +37,7 @@ def main():
     parser.add_argument('--begin', type=int, required=True, help='Beginning question number')
     parser.add_argument('--end', type=int, required=True, help='Ending question number')
     parser.add_argument('--topic', type=int, default=1, help='Topic number (default: 1)')
+    parser.add_argument('--output', default='output', help='Output directory for PDF files')
     parser.add_argument('--config', default='settings.json', help='Configuration file path')
     parser.add_argument('--log-level', choices=['debug', 'info', 'warning', 'error'], 
                        default='info', help='Logging level')
@@ -50,6 +53,7 @@ def main():
         logger.info("Starting ExamTopics PDF Scraper...")
         config_manager = ConfigManager(args.config)
         search_engine = SearchEngine()
+        pdf_generator = PDFGenerator()
         
         # Load configuration
         logger.info("Loading configuration...")
@@ -76,6 +80,8 @@ def main():
         # Track results
         successful_urls = []
         failed_questions = []
+        generated_pdfs = []
+        pdf_failures = []
         
         # Process each question in the range
         for question_num in range(args.begin, args.end + 1):
@@ -94,6 +100,20 @@ def main():
             if result_url:
                 successful_urls.append((question_num, result_url))
                 logger.info(f"✓ SUCCESS: Found URL for question {question_num}")
+                
+                # Generate PDF from the found URL
+                pdf_filename = f"{args.exam}_topic{args.topic}_question{question_num}.pdf"
+                pdf_path = os.path.join(args.output, pdf_filename)
+                
+                logger.info(f"Generating PDF for question {question_num}...")
+                pdf_success = pdf_generator.generate_pdf(result_url, pdf_path)
+                
+                if pdf_success:
+                    generated_pdfs.append((question_num, pdf_path))
+                    logger.info(f"✓ PDF SUCCESS: Generated {pdf_filename}")
+                else:
+                    pdf_failures.append((question_num, result_url))
+                    logger.error(f"✗ PDF FAILED: Could not generate PDF for question {question_num}")
             else:
                 failed_questions.append(question_num)
                 logger.warning(f"✗ FAILED: No valid URL found for question {question_num}")
@@ -103,16 +123,23 @@ def main():
         print(f"PROCESSING SUMMARY")
         print(f"{'='*60}")
         print(f"Total questions processed: {args.end - args.begin + 1}")
-        print(f"Successful: {len(successful_urls)}")
-        print(f"Failed: {len(failed_questions)}")
+        print(f"URLs found: {len(successful_urls)}")
+        print(f"PDFs generated: {len(generated_pdfs)}")
+        print(f"PDF generation failed: {len(pdf_failures)}")
+        print(f"No URLs found: {len(failed_questions)}")
         
-        if successful_urls:
-            print(f"\n✓ SUCCESSFUL QUESTIONS:")
-            for question_num, url in successful_urls:
-                print(f"  Question {question_num}: {url}")
+        if generated_pdfs:
+            print(f"\n✓ SUCCESSFULLY GENERATED PDFs:")
+            for question_num, pdf_path in generated_pdfs:
+                print(f"  Question {question_num}: {pdf_path}")
+        
+        if pdf_failures:
+            print(f"\n✗ PDF GENERATION FAILURES:")
+            for question_num, url in pdf_failures:
+                print(f"  Question {question_num}: Failed to generate PDF from {url}")
         
         if failed_questions:
-            print(f"\n✗ FAILED QUESTIONS:")
+            print(f"\n✗ NO URLs FOUND:")
             for question_num in failed_questions:
                 print(f"  Question {question_num}: No valid URL found")
         

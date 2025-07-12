@@ -57,10 +57,8 @@ This document outlines the detailed implementation phases for the ExamTopics PDF
 - [ ] `pdf_generator.py` module with weasyprint integration
 
 #### Tasks:
-1. Implement web page content fetching
-2. Configure weasyprint for optimal PDF output
-3. Add content preprocessing for better PDF formatting
-4. Implement error handling for generation failures
+1. Use weasyprint to get the page HTML from URL and then save as PDF
+2. Implement error handling for generation failures
 
 ## Phase 3: Integration and Processing
 
