@@ -4,6 +4,14 @@ import logging
 import os
 from urllib.parse import urlparse
 
+# Configure logging for the WeasyPrint library to hide unsupported CSS warnings
+# GitHub Issue:
+# - https://github.com/Kozea/WeasyPrint/issues/312
+# - https://github.com/Kozea/WeasyPrint/issues/412
+wp_logger = logging.getLogger("weasyprint")
+wp_logger.addHandler(logging.NullHandler())
+wp_logger.setLevel(40)
+
 from weasyprint import HTML
 
 
