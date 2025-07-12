@@ -1,0 +1,12 @@
+{
+  "site": "https://www.examtopics.com",
+  "log_level": "info",
+  "exams": [
+    {
+      "exam": "saa-c03",
+      "title": "Associate SAA-C03 topic #TOPIC question #QUESTION",
+      "keyword": "Associate SAA-C03 topic #TOPIC question #QUESTION",
+      "url_substring": "exam-aws-certified-solutions-architect-associate-saa-c03"
+    }
+  ]
+}

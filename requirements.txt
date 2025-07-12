@@ -1,3 +1,0 @@
-requests>=2.25.0
-beautifulsoup4>=4.9.0
-duckduckgo-search>=3.0.0
