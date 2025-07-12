@@ -4,8 +4,8 @@
   "exams": [
     {
       "exam": "saa-c03",
-      "title": "Associate SAA-C03 topic #TOPIC question #QUESTION discussion",
-      "keyword": "Associate SAA-C03 topic #TOPIC question #QUESTION discussion",
+      "title": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "keyword": "Associate SAA-C03 topic 1 question #QUESTION discussion",
       "url_substring": "exam-aws-certified-solutions-architect-associate-saa-c03"
     },
     {
