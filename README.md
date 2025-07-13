@@ -9,8 +9,9 @@
 
 ## Supported Exams
 
-- `saa-c03`: AWS Certified Solutions Architect Associate
+- `saa-c03`: AWS Certified Solutions Architect Associate (Topic 1)
 - `az-104-1`: Microsoft Azure Administrator (Topic 1)
+- `sap-c02-01`: AWS Certified Solutions Architect Professional (Topic 1) 
 
 ## Setup
 
@@ -28,7 +29,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-python src/main.py --exam EXAM_CODE --begin START --end END [OPTIONS]
+python -m src.main --exam EXAM_CODE --begin START --end END [OPTIONS]
 ```
 
 ### Required Arguments
@@ -48,12 +49,12 @@ python src/main.py --exam EXAM_CODE --begin START --end END [OPTIONS]
 
 - Download questions 1-10 for AWS SAA-C03:
 ```bash
-python src/main.py --exam saa-c03 --begin 1 --end 10
+python -m src.main --exam saa-c03 --begin 1 --end 10
 ```
 
 - Download to custom directory without merging:
 ```bash
-python src/main.py --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
+python -m src.main --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
 ```
 
 ## Configuration
