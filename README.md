@@ -4,13 +4,13 @@
 
 ## Prerequisites
 
-- `Python` >= `3.7`
+- `python` >= `3.7`
 - Internet connection for searching and downloading
 
 ## Supported Exams
 
-- **SAA-C03**: AWS Certified Solutions Architect Associate
-- **AZ-104-1**: Microsoft Azure Administrator (Topic 1)
+- `saa-c03`: AWS Certified Solutions Architect Associate
+- `az-104-1`: Microsoft Azure Administrator (Topic 1)
 
 ## Setup
 
@@ -56,17 +56,6 @@ python src/main.py --exam saa-c03 --begin 1 --end 10
 python src/main.py --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
 ```
 
-## Output
-
-Example output structure:
-```bash
-output/
-├── saa-c03_question1.pdf
-├── saa-c03_question2.pdf
-├── saa-c03_question3.pdf
-└── saa-c03_questions1-3_merged.pdf
-```
-
 ## Configuration
 
 The tool uses `settings.json` to configure exam parameters and search behavior. Here's how to understand and modify the settings:
@@ -110,7 +99,7 @@ You can open an issue to ask for support on a new exam.
 OR you can add it yourself by:
 
 - Find the exam on ExamTopics and note the URL pattern
-- Add a new exam object to the `exams` array:
+- Add a new exam object to the `exams` array of `settings.json`:
 
 ```json
 {
@@ -118,15 +107,5 @@ OR you can add it yourself by:
   "title": "Exam Title topic 1 question #QUESTION discussion",
   "keyword": "Exam Title topic 1 question #QUESTION discussion",
   "url_substring": "unique-part-of-exam-url"
-}
-```
-
-- Example for adding AWS DVA-C02
-```json
-{
-  "exam": "dva-c02",
-  "title": "Developer DVA-C02 topic 1 question #QUESTION discussion",
-  "keyword": "Developer DVA-C02 topic 1 question #QUESTION discussion",
-  "url_substring": "exam-aws-certified-developer-associate-dva-c02"
 }
 ```

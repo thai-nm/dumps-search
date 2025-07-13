@@ -13,6 +13,12 @@
       "title": "Exam AZ-104 topic 1 question #QUESTION discussion",
       "keyword": "Exam AZ-104 topic 1 question #QUESTION discussion",
       "url_substring": "exam-az-104-topic-1"
+    },
+    {
+      "exam": "sap-c02-01",
+      "title": "Professional SAP-C02 topic 1 question #QUESTION discussion",
+      "keyword": "Professional SAP-C02 topic 1 question #QUESTION discussion",
+      "url_substring": "exam-aws-certified-solutions-architect-professional-sap-c02"
     }
   ]
 }
