@@ -1,38 +1,132 @@
-# Dumps search for ExamTopics
-*With free tier, ExamTopic only allows us to see limited questions and answers. This tool is to generate PDF files containing any questions and discussion sessions on ExamTopic.*
+# ExamTopics PDF Scraper
 
-# Pre-requiste
-- `Python` >= `3.9`
+*With the free tier, ExamTopics only allows limited access to questions and answers. This tool searches for exam questions on ExamTopics, downloads them as individual PDF files, and optionally merges them into a single comprehensive study document.*
 
-# Supported exams
-- Google Cloud Platform - Associate Cloud Engineer
-- Amazon Web Services - Certified Security Specialty
-# Set up
+## Prerequisites
+
+- `Python` >= `3.7`
+- Internet connection for searching and downloading
+
+## Supported Exams
+
+- **SAA-C03**: AWS Certified Solutions Architect Associate
+- **AZ-104-1**: Microsoft Azure Administrator (Topic 1)
+
+## Setup
+
+This tool uses [Weasyprint](https://weasyprint.org/). So depends on your OS, you might need to install its dependencies: 
+- [Weasyprint Official Documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
+
 Set up virtual environment and install dependencies:
+
 ```bash
 python3 -m venv venv
 . venv/bin/activate
 pip install -r requirements.txt
 ```
 
-# Usage
-```
-usage: main.py [-h] [--start START] [--end END] [--pages PAGES [PAGES ...]] [--exam {gcp-ace,aws-scs}]
+## Usage
 
-Generate PDFs for GCP ACE exam questions
-
-optional arguments:
-  -h, --help                    show this help message and exit
-  --start START                 first question index to query
-  --end END                     last question index to query
-  --pages PAGES [PAGES ...]     specify pages to generate
-  --exam {gcp-ace,aws-scs}      exam name
+```bash
+python src/main.py --exam EXAM_CODE --begin START --end END [OPTIONS]
 ```
 
-Example:
+### Required Arguments
 
-- This will generate PDF files from question #1 to question #31 the exam AWS-SCS:
+- `--exam`: Exam code
+- `--begin`: Starting question number
+- `--end`: Ending question number
 
-    ```bash
-    python3 main.py --start 1 --end 31 --exam aws-scs
-    ```
+### Optional Arguments
+
+- `--output`: Output directory (default: `output`)
+- `--config`: Configuration file path (default: `settings.json`)
+- `--no-merge`: Skip PDF merging, keep only individual files
+- `--keep-individual`: Keep individual PDFs after merging
+
+### Examples
+
+- Download questions 1-10 for AWS SAA-C03:
+```bash
+python src/main.py --exam saa-c03 --begin 1 --end 10
+```
+
+- Download to custom directory without merging:
+```bash
+python src/main.py --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
+```
+
+## Output
+
+Example output structure:
+```bash
+output/
+├── saa-c03_question1.pdf
+├── saa-c03_question2.pdf
+├── saa-c03_question3.pdf
+└── saa-c03_questions1-3_merged.pdf
+```
+
+## Configuration
+
+The tool uses `settings.json` to configure exam parameters and search behavior. Here's how to understand and modify the settings:
+
+### Settings Structure
+
+```json
+{
+  "site": "https://www.examtopics.com",
+  "log_level": "info",
+  "exams": [
+    {
+      "exam": "saa-c03",
+      "title": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "keyword": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "url_substring": "exam-aws-certified-solutions-architect-associate-saa-c03"
+    }
+  ]
+}
+```
+
+### Settings Explanation
+
+**Global Settings:**
+- `site`: The base ExamTopics URL (usually doesn't need to change)
+- `log_level`: Logging verbosity (`debug`, `info`, `warning`, `error`)
+
+**Exam Configuration:**
+- `exam`: Unique identifier used with `--exam` parameter
+- `title`: Page title used to find question URLs
+- `keyword`: Search keyword used to find question URLs
+- `url_substring`: Unique part of ExamTopics URLs to validate correct results
+
+**Placeholders:**
+- `#QUESTION`: Automatically replaced with the actual question number during search
+
+### Adding New Exams
+
+You can open an issue to ask for support on a new exam.
+
+OR you can add it yourself by:
+
+- Find the exam on ExamTopics and note the URL pattern
+- Add a new exam object to the `exams` array:
+
+```json
+{
+  "exam": "your-exam-code",
+  "title": "Exam Title topic 1 question #QUESTION discussion",
+  "keyword": "Exam Title topic 1 question #QUESTION discussion",
+  "url_substring": "unique-part-of-exam-url"
+}
+```
+
+- Example for adding AWS DVA-C02
+```json
+{
+  "exam": "dva-c02",
+  "title": "Developer DVA-C02 topic 1 question #QUESTION discussion",
+  "keyword": "Developer DVA-C02 topic 1 question #QUESTION discussion",
+  "url_substring": "exam-aws-certified-developer-associate-dva-c02"
+}
+```

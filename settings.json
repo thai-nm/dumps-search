@@ -1,0 +1,18 @@
+{
+  "site": "https://www.examtopics.com",
+  "log_level": "info",
+  "exams": [
+    {
+      "exam": "saa-c03",
+      "title": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "keyword": "Associate SAA-C03 topic 1 question #QUESTION discussion",
+      "url_substring": "exam-aws-certified-solutions-architect-associate-saa-c03"
+    },
+    {
+      "exam": "az-104-1",
+      "title": "Exam AZ-104 topic 1 question #QUESTION discussion",
+      "keyword": "Exam AZ-104 topic 1 question #QUESTION discussion",
+      "url_substring": "exam-az-104-topic-1"
+    }
+  ]
+}
