@@ -19,11 +19,9 @@ This tool uses [Weasyprint](https://weasyprint.org/).
 So depends on your OS, you might need to install its dependencies first:
 
 - Linux: [Install weasyprint on Linux](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#linux)
-- MacOS with `python` installed by `homebrew`:
+- macOS with `python` installed by `homebrew`:
 ```bash
 brew install weasyprint
-```
-- MacOS with `python` NOT installed by `homebrew`:
 ```bash
 brew install weasyprint
 
