@@ -13,7 +13,7 @@ wp_logger.setLevel(40)
 
 from weasyprint import HTML
 from pypdf import PdfReader, PdfWriter
-from .logger import get_app_logger
+from logger import get_app_logger
 
 
 class PDFGenerator:

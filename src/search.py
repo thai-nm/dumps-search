@@ -3,7 +3,7 @@ from typing import List, Optional
 from urllib.parse import urlparse
 
 from ddgs import DDGS
-from .logger import get_app_logger
+from logger import get_app_logger
 
 
 class SearchEngine:

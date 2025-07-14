@@ -4,11 +4,11 @@ import argparse
 import os
 import sys
 
-from .config import ConfigManager
-from .search import SearchEngine
-from .pdf_generator import PDFGenerator
-from .pdf_merger import PDFMerger
-from .logger import setup_logging, get_app_logger
+from config import ConfigManager
+from search import SearchEngine
+from pdf_generator import PDFGenerator
+from pdf_merger import PDFMerger
+from logger import setup_logging, get_app_logger
 
 
 def main():

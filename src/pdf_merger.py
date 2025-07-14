@@ -4,7 +4,7 @@ from typing import List, Optional
 from pathlib import Path
 
 from pypdf import PdfReader, PdfWriter
-from .logger import get_app_logger
+from logger import get_app_logger
 
 
 class PDFMerger:
