@@ -22,6 +22,8 @@ So depends on your OS, you might need to install its dependencies first:
 - macOS with `python` installed by `homebrew`:
 ```bash
 brew install weasyprint
+```
+- macOS with `python` NOT installed by `homebrew`:
 ```bash
 brew install weasyprint
 
