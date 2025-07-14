@@ -42,7 +42,7 @@ jobs:
 
       - name: Test CLI functionality
         run: |
-          python -m src.main --exam saa-c03 --begin 1 --end 2
+          python src/main.py --exam saa-c03 --begin 1 --end 2
 
       - name: Verify merged PDF creation
         run: |

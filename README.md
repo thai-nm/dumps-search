@@ -46,7 +46,7 @@ pip install -r requirements.txt
 ## Usage
 
 ```bash
-python -m src.main --exam EXAM_CODE --begin START --end END [OPTIONS]
+python src/main.py --exam EXAM_CODE --begin START --end END [OPTIONS]
 ```
 
 ### Required Arguments
@@ -66,12 +66,12 @@ python -m src.main --exam EXAM_CODE --begin START --end END [OPTIONS]
 
 - Download questions 1-10 for AWS SAA-C03:
 ```bash
-python -m src.main --exam saa-c03 --begin 1 --end 10
+python src/main.py --exam saa-c03 --begin 1 --end 10
 ```
 
 - Download to custom directory without merging:
 ```bash
-python -m src.main --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
+python src/main.py --exam saa-c03 --begin 1 --end 5 --output my-pdfs --no-merge
 ```
 
 ## Configuration
