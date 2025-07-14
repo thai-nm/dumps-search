@@ -4,8 +4,7 @@
 
 ## Prerequisites
 
-- `python` >= `3.7`
-- Internet connection for searching and downloading
+- `python` >= `3.9`
 
 ## Supported Exams
 
@@ -15,11 +14,29 @@
 
 ## Setup
 
-This tool uses [Weasyprint](https://weasyprint.org/). So depends on your OS, you might need to install its dependencies: 
-- [Weasyprint Official Documentation](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html)
+This tool uses [Weasyprint](https://weasyprint.org/). 
+
+So depends on your OS, you might need to install its dependencies first:
+
+- Linux: [Install weasyprint on Linux](https://doc.courtbouillon.org/weasyprint/stable/first_steps.html#linux)
+- MacOS with `python` installed by `homebrew`:
+```bash
+brew install weasyprint
+```
+- MacOS with `python` NOT installed by `homebrew`:
+```bash
+brew install weasyprint
+
+# GitHub issue: https://github.com/Kozea/WeasyPrint/issues/1448
+sudo mkdir -p /usr/local/lib
+sudo ln -s /opt/homebrew/opt/glib/lib/libgobject-2.0.0.dylib /usr/local/lib/gobject-2.0
+sudo ln -s /opt/homebrew/opt/pango/lib/libpango-1.0.dylib /usr/local/lib/pango-1.0
+sudo ln -s /opt/homebrew/opt/harfbuzz/lib/libharfbuzz.dylib /usr/local/lib/harfbuzz
+sudo ln -s /opt/homebrew/opt/fontconfig/lib/libfontconfig.1.dylib /usr/local/lib/fontconfig-1
+sudo ln -s /opt/homebrew/opt/pango/lib/libpangoft2-1.0.dylib /usr/local/lib/pangoft2-1.0
+```
 
 Set up virtual environment and install dependencies:
-
 ```bash
 python3 -m venv venv
 . venv/bin/activate
