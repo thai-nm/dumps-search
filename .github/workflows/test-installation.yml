@@ -35,4 +35,14 @@ jobs:
       - name: Test CLI functionality
         run: |
           python -m src.main --exam saa-c03 --begin 1 --end 2
-          ls -la
+
+      - name: Verify merged PDF creation
+        run: |
+          if [ -f "output/saa-c03_questions1-2_merged.pdf" ]; then
+            echo "Merged PDF file created successfully"
+          else
+            echo "Merged PDF file not found"
+            echo "Files in output directory:"
+            ls -la output/
+            exit 1
+          fi
