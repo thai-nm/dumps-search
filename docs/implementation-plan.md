@@ -131,7 +131,6 @@ dumps-search/
 - **duckduckgo-search**: Web search functionality
 - **weasyprint**: HTML to PDF conversion
 - **PyPDF2/pypdf**: PDF manipulation and merging
-- **requests**: HTTP requests for web content
 - **argparse**: CLI interface framework (built-in)
 
 #### 5.2 Optional Dependencies
