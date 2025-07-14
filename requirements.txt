@@ -1,10 +1,5 @@
-# Core dependencies for ExamTopics PDF Scraper
 ddgs==9.0.2
 weasyprint==60.0
 pypdf==3.17.0
 requests==2.31.0
-
-# Development dependencies
 pytest==7.4.0
-black==23.0.0
-flake==6.0.0
