@@ -27,7 +27,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install pango weasyprint
-          mkdir -p /usr/local/lib
+          sudo mkdir -p /usr/local/lib
           sudo ln -s /opt/homebrew/opt/glib/lib/libgobject-2.0.0.dylib /usr/local/lib/gobject-2.0
           sudo ln -s /opt/homebrew/opt/pango/lib/libpango-1.0.dylib /usr/local/lib/pango-1.0
           sudo ln -s /opt/homebrew/opt/harfbuzz/lib/libharfbuzz.dylib /usr/local/lib/harfbuzz
