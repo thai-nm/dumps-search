@@ -27,7 +27,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install pango weasyprint glib
-          brew link glib
+          brew unlink glib && brew link glib
 
       - name: Install dependencies
         run: |
