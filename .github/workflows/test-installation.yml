@@ -26,7 +26,7 @@ jobs:
       - name: Install system dependencies (macOS)
         if: runner.os == 'macOS'
         run: |
-          brew install weasyprint
+          brew install pango weasyprint
 
       - name: Install dependencies
         run: |
