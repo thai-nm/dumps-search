@@ -19,6 +19,12 @@
       "title": "Professional SAP-C02 topic 1 question #QUESTION discussion",
       "keyword": "Professional SAP-C02 topic 1 question #QUESTION discussion",
       "url_substring": "exam-aws-certified-solutions-architect-professional-sap-c02"
+    },
+    {
+      "exam": "ms-102-01",
+      "title": "Exam MS-102 topic 1 question #QUESTION discussion",
+      "keyword": "Exam MS-102 topic 1 question #QUESTION discussion",
+      "url_substring": "exam-ms-102-topic-1"
     }
   ]
 }
