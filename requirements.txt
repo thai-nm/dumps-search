@@ -1,4 +1,4 @@
-ddgs==9.1.0
+ddgs==9.6.1
 weasyprint>=64.1
 pypdf==3.17.0
 pytest==7.4.0

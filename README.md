@@ -10,7 +10,9 @@
 
 - `saa-c03`: AWS Certified Solutions Architect Associate (Topic 1)
 - `az-104-1`: Microsoft Azure Administrator (Topic 1)
-- `sap-c02-01`: AWS Certified Solutions Architect Professional (Topic 1) 
+- `sap-c02-01`: AWS Certified Solutions Architect Professional (Topic 1)
+- `ms-102-01`: Microsoft 365 Administrator (Topic 1)
+- `cka`: Certified Kubernetes Administrator (Topic 1)
 
 ## Setup
 

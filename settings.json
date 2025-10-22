@@ -1,6 +1,6 @@
 {
   "site": "https://www.examtopics.com",
-  "log_level": "info",
+  "log_level": "debug",
   "exams": [
     {
       "exam": "saa-c03",
@@ -25,6 +25,12 @@
       "title": "Exam MS-102 topic 1 question #QUESTION discussion",
       "keyword": "Exam MS-102 topic 1 question #QUESTION discussion",
       "url_substring": "exam-ms-102-topic-1"
+    },
+    {
+      "exam": "cka",
+      "title": "Exam CKA topic 1 question #QUESTION discussion",
+      "keyword": "Exam CKA topic 1 question #QUESTION discussion",
+      "url_substring": "exam-cka-topic-1"
     }
   ]
 }
