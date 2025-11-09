@@ -41,7 +41,7 @@ sudo ln -s /opt/homebrew/opt/pango/lib/libpangoft2-1.0.dylib /usr/local/lib/pang
 Set up virtual environment and install dependencies:
 ```bash
 python3 -m venv venv
-. venv/bin/activate
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 

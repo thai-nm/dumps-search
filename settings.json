@@ -31,6 +31,12 @@
       "title": "Exam CKA topic 1 question #QUESTION discussion",
       "keyword": "Exam CKA topic 1 question #QUESTION discussion",
       "url_substring": "exam-cka-topic-1"
+    },
+    {
+      "exam": "clf-c02",
+      "title": "Exam AWS Certified Cloud Practitioner CLF‑C02 topic 1 question #QUESTION discussion",
+      "keyword": "Exam AWS Certified Cloud Practitioner CLF‑C02 topic 1 question #QUESTION discussion",
+      "url_substring": "aws-certified-cloud-practitioner-clf-c02"
     }
   ]
 }
